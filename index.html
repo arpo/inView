@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+  <title>In view</title>
+	<style>
+		body {
+			font-family: sans-serif;
+		}
+
+		.item {
+			width: 100%;
+		}
+
+		.item img {
+			width: 100%;
+		}
+
+	</style>
+</head>
+
+<body>
+
+	<div id="item1" class="item">
+		<h2>1. A fancy header</h2>
+		<img src="http://lorempixel.com/800/450/nature/1/">
+	</div>
+	<div id="item2" class="item">
+		<h2>2. A fancy header</h2>
+		<img src="http://lorempixel.com/800/450/nature/2/">
+	</div>
+	<div id="item3" class="item">
+		<h2>3. A fancy header</h2>
+		<img src="http://lorempixel.com/800/450/nature/3/">
+	</div>
+	<div id="item4" class="item">
+		<h2>4. A fancy header</h2>
+		<img src="http://lorempixel.com/800/450/nature/4/">
+	</div>
+	<div id="item5" class="item">
+		<h2>5. A fancy header</h2>
+		<img src="http://lorempixel.com/800/450/nature/5/">
+	</div>
+	<div id="item6" class="item">
+		<h2>6. A fancy header</h2>
+		<img src="http://lorempixel.com/800/450/nature/6/">
+	</div>
+	<div id="item7" class="item">
+		<h2>7. A fancy header</h2>
+		<img src="http://lorempixel.com/800/450/nature/7/">
+	</div>
+	<div id="item8" class="item">
+		<h2>8. A fancy header</h2>
+		<img src="http://lorempixel.com/800/450/nature/8/">
+	</div>
+	<div id="item9" class="item">
+		<h2>9. A fancy header</h2>
+		<img src="http://lorempixel.com/800/450/nature/3/">
+	</div>
+	<div id="item10" class="item">
+		<h2>10. A fancy header</h2>
+		<img src="http://lorempixel.com/800/450/nature/10/">
+	</div>
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="inView.js"></script>
+	<script type="text/javascript">	
+
+		$(document).on('ready', function() {
+			
+			// This fires when inView is checked. 
+			// inView is checked when the browser is scrolling or resizing
+			// or MOS.inView.check(); is called.
+			$(document).on('MOS.inViewCheck', function(e) { 
+				console.log(e.states); //Returns an object with arrays of jQuery objects, split into visible and not visible elements.
+			});
+
+			//Debug trace ON.
+			MOS.inView.doTrace = true;
+
+			//Add item to check
+			MOS.inView.add($('.item'));
+
+			//Run check
+			MOS.inView.check();
+
+		});
+
+	</script>
+</body>
+
+</html>
