@@ -65,19 +65,22 @@
 
 	<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript" src="inView.js"></script>
-	<script type="text/javascript">	
+	<script type="text/javascript">
 
 		$(document).on('ready', function() {
-			
-			// This fires when inView is checked. 
+
+			// This fires when inView is checked.
 			// inView is checked when the browser is scrolling or resizing
 			// or MOS.inView.check(); is called.
-			$(document).on('MOS.inViewCheck', function(e) { 
+			$(document).on('MOS.inViewCheck', function(e) {
 				console.log(e.states); //Returns an object with arrays of jQuery objects, split into visible and not visible elements.
 			});
 
 			//Debug trace ON.
 			MOS.inView.doTrace = true;
+
+			// To check for elemnts ouside of the viewport you can increas outOfBoundsSize. Default is 1. 2 is 100% extra to the view port
+			MOS.inView.outOfBoundsSize = 2;
 
 			//Add item to check
 			MOS.inView.add($('.item'));
