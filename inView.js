@@ -50,18 +50,19 @@ MOS.inView = (function() {
 	}
 
 
-	function _checkBoundery ($target) {
+	function _checkBoundery ($target, boundsSize) {
+
+		boundsSize = boundsSize || 1;
 
 		var boundingRect = $target[0].getBoundingClientRect(),
 			outerHeight = $target.outerHeight(),
-			outerWidth = $target.outerWidth(),
-			startLimit = 1;
+			outerWidth = $target.outerWidth();
 
 		if (
-			boundingRect.top >= -1 * (outerHeight * startLimit) && 
-			boundingRect.bottom <= window.innerHeight + (outerHeight * startLimit) &&
-			boundingRect.left >= -1 * (outerWidth * startLimit) && 
-			boundingRect.right <= window.innerWidth + (outerWidth * startLimit)
+			boundingRect.top >= -1 * (outerHeight * boundsSize) &&
+			boundingRect.bottom <= window.innerHeight + (outerHeight * boundsSize) &&
+			boundingRect.left >= -1 * (outerWidth * boundsSize) &&
+			boundingRect.right <= window.innerWidth + (outerWidth * boundsSize)
 			)
 		{
 			return true;
@@ -73,34 +74,51 @@ MOS.inView = (function() {
 
 	function _whatsVisible() {
 
-		var len = _watchList.length, 
-			i, 
+		var len = _watchList.length,
+			i,
 			curr,
 			isVisible = [],
-			notVisible = [];
+			isClose = [],
+			notVisible = [],
+			fn;
+
+		fn = function(index) {
+
+			curr = $(this);
+
+			if (_checkBoundery (curr, 1)) {
+				isVisible.push(curr);
+				curr.addClass('isVisible');
+			} else {
+				notVisible.push(curr);
+				curr.removeClass('isVisible');
+			}
+
+			if (_checkBoundery (curr, MOS.inView.outOfBoundsSize)) {
+				if (!curr.hasClass('isVisible')) {
+					isClose.push(curr);
+				}
+			}
+
+		};
 
 		for (i = 0; i < len; i += 1) {
-			_watchList[i].each(function(index) {
-				curr = $(this);
-				if (_checkBoundery (curr)) {
-					isVisible.push(curr);
-				} else {
-					notVisible.push(curr);
-				}
-			});
+			_watchList[i].each(fn);
+
 		}
 
 		return {
 			isVisible: isVisible,
-			notVisible: notVisible
+			notVisible: notVisible,
+			isClose: isClose
 		};
 
 	}
 
 	function _onChecked(res) {
 
-		var len = res.isVisible.length, 
-			i, 
+		var len = res.isVisible.length,
+			i,
 			strVisible = '';
 
 
@@ -115,6 +133,8 @@ MOS.inView = (function() {
 
 		if (MOS.inView.doTrace) _trace('Visible', strVisible);
 
+		return res;
+
 	}
 
 	function _init() {
@@ -127,27 +147,28 @@ MOS.inView = (function() {
 			_onChecked(_whatsVisible());
 		}, 300);
 
-		_init = function () {}
+		_init = function () {};
 
 	}
-	
+
   	function _add (it) {
 
   		_init();
-		_watchList.push(it)
+		_watchList.push(it);
 
 	}
 
 	function _clear() {
-		_watchList.length = 0;		
+		_watchList.length = 0;
 	}
 
 	function _check() {
-		_onChecked(_whatsVisible());
+		return _onChecked(_whatsVisible());
 	}
-	
+
 	return {
 		add: _add,
+		outOfBoundsSize: 2,
 		whatsVisible: _whatsVisible,
 		check: _check,
 		doTrace: false,
