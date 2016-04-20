@@ -1,14 +1,15 @@
 /**
- * Mattias Johansson
- * @author www.verodella.se
+ * inView 1.5
+ * @author Mattias Johansson
  * @copyright Mattias Johansson
  * License http://opensource.org/licenses/MIT
+ *
+ * A library that tells if an HTML element is in view or not.
+ * https://github.com/arpo/inView
  */
 
 var MOS = window.MOS || {};
 MOS.inView = (function() {
-
-	var c = (console) ? console : {log: function () {}}; c.l = c.log;
 
 	var _watchList = [];
 

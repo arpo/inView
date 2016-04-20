@@ -6,7 +6,7 @@ Requires jQuery.
 	// inView is checked when the browser is scrolling or resizing
 	// or MOS.inView.check(); is called.
 	$(document).on('MOS.inViewCheck', function(e) {
-		console.log(e.states); //Returns an object with arrays of jQuery objects, split into visible and not visible elements.
+		console.log(e.states); //Returns an object with arrays of jQuery objects, split into visible, not visible elements and close to visible.
 	});
 
 	//Debug trace ON.
